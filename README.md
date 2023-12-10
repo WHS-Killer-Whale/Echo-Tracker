@@ -31,6 +31,15 @@
 
 ---
 
+
+### 2번째 방법
+Docker Hub에 배포된 컨테이너를 설치할 수도 있습니다.
+> 아래 명령어를 실행합니다.
+```
+docker run -it hhtboy/whatsmyname_darkweb:1.0
+```
+---
+
 ## ✅ 주요 기능
 > `USER NAME:`에 검색을 원하는 유저 네임을 입력하세요.
 WhatsMyName이 포럼 리스트 안의 포럼들에 해당 유저가 존재하는지 검색합니다.
