@@ -24,6 +24,11 @@
 ![image](https://github.com/sunyou10/WhatsMyName/assets/145275007/d338749a-1df6-4f21-b3d0-06c47eea018a)
 
 
+### ⏩ 재실행
+
+> 명령어: `docker ps -a` >> `docker start -i {container_id}`
+>
+
 ---
 
 ## ✅ 주요 기능
