@@ -6,7 +6,7 @@
 ## ✅ Docker에서 실행
 
 ### 0️⃣ Git 저장소 복제
-> 명령어: `git clone [git@github.com](mailto:git@github.com):sunyou10/WhatsMyName.git`
+> 명령어: `git clone https://github.com/WHS-Killer-Whale/WhatsMyName_DarkWeb.git`
 >
 > 
 
