@@ -124,22 +124,38 @@ def redSecurity(user):
     except Exception as e:
         notSearch(name)
 
+def ramble(user):
+    name = "ramble"
+    url = (
+        "http://rambleeeqrhty6s5jgefdfdtc6tfgg4jj6svr4jpgk4wjtg3qshwbaad.onion/user/"
+        + user
+    )
+    try:
+        response = requests.get(url, proxies=proxies)
+        if response.status_code == 200:
+            userStatus(True, name)
+        else:
+            pass
+    except:
+        notSearch(name)
 
 
 if __name__ == "__main__":
-    user = input(colored.blue("USER NAME: "))
-    _0Day(user)
-    _0x00sec(user)
-    _1877(user)
-    wasm(user)
-    redSecurity(user)
-    
-    print(colored.green("\n>>> DETECTED: "))
-    for i in forum:
-        print("\t" + i)
+	while(True):
+		user = input(colored.blue("USER NAME: "))
+		_0Day(user)
+		_0x00sec(user)
+		_1877(user)
+		wasm(user)
+		redSecurity(user)
+		ramble(user)
 
-    print(colored.red("\n>>> unknown: ", errorForum))
-    for i in errorForum:
-        print("\t" + i)
+		print(colored.green("\n>>> DETECTED: "))
+		for i in forum:
+			print("\t" + i)
 
-    print('\n')
+		print(colored.red("\n>>> unknown: ", errorForum))
+		for i in errorForum:
+			print("\t" + i)
+
+		print('\n')
