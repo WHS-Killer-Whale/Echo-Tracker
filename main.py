@@ -159,3 +159,9 @@ if __name__ == "__main__":
 			print("\t" + i)
 
 		print('\n')
+		print(colored.white("----------------------------------------------------------KILLER WHALE _whs"))
+
+		# clear list
+		forum.clear()
+		errorForum.clear()
+
