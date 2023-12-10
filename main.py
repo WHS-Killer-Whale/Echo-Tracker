@@ -1,5 +1,5 @@
 import requests
-from selenium import webdriver
+# from selenium import webdriver
 import json
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode, urljoin
@@ -88,6 +88,42 @@ def _1877(user):
     except:
         notSearch(name)
 
+def wasm(user):
+    url = "https://wasm.in/index.php?members/find"
+    name = "Wasm.in"
+    payload = {
+        "q": user,
+        "_xfRequestUri": "/",
+        "_xfNoRedirect": 1,
+        "_xfResponseType": "json"
+    }
+    try:
+        response = requests.post(url, data=payload, headers=headers)
+
+        if response.status_code == 200 and user in response.json().get("results", {}):
+            userStatus(True, name)
+
+    except Exception as e:
+        notSearch(name)
+
+def redSecurity(user):
+    url = "https://redsecurity.info/cc/xmlhttp.php?action=get_users"
+    name = "RedSecurity"
+    timestamp = int(time.time() * 1000)
+    payload = {
+        "query": user,
+        "_": timestamp
+    }
+    try:
+        response = requests.post(url, data=payload, headers=headers)
+        if response.status_code == 200:
+            result = response.json()
+            if result and user == result[0].get("id"):
+                userStatus(True, name)
+
+    except Exception as e:
+        notSearch(name)
+
 
 
 if __name__ == "__main__":
@@ -95,6 +131,8 @@ if __name__ == "__main__":
     _0Day(user)
     _0x00sec(user)
     _1877(user)
+    wasm(user)
+    redSecurity(user)
     
     print(colored.green("\n>>> DETECTED: "))
     for i in forum:
@@ -105,4 +143,3 @@ if __name__ == "__main__":
         print("\t" + i)
 
     print('\n')
-
