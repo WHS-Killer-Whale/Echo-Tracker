@@ -3,7 +3,7 @@
 
 ---
 
-## ✅ Docker에서 실행
+## ✅ Docker에서 실행(첫 번째 방법)
 
 ### 0️⃣ Git 저장소 복제
 > 명령어: `git clone https://github.com/WHS-Killer-Whale/WhatsMyName_DarkWeb.git`
@@ -32,12 +32,17 @@
 ---
 
 
-### 2번째 방법
+## ✅ Docker에서 실행(두 번째 방법)
 Docker Hub에 배포된 컨테이너를 설치할 수도 있습니다.
 > 아래 명령어를 실행합니다.
 ```
 docker run -it hhtboy/whatsmyname_darkweb:1.0
 ```
+
+### ⏩ 재실행
+
+> 명령어: `docker ps -a` >> `docker start -i {container_id}`
+>
 ---
 
 ## ✅ 주요 기능
