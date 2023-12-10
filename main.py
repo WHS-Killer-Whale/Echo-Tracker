@@ -38,10 +38,48 @@ def notSearch(name):
 
 
 # 여기서 부터 작성하세요
+def wasm(user):
+    url = "https://wasm.in/index.php?members/find"
+    name = "Wasm.in"
+    payload = {
+        "q": user,
+        "_xfRequestUri": "/",
+        "_xfNoRedirect": 1,
+        "_xfResponseType": "json"
+    }
+    try:
+        response = requests.post(url, data=payload, headers=headers)
+
+        if response.status_code == 200 and user in response.json().get("results", {}):
+            userStatus(True, name)
+
+    except Exception as e:
+        notSearch(name)
+        print(e)
+
+def RedSecurity(user):
+    url = "https://redsecurity.info/cc/xmlhttp.php?action=get_users"
+    name = "RedSecurity"
+    timestamp = int(time.time() * 1000)
+    payload = {
+        "query": user,
+        "_": timestamp
+    }
+    try:
+        response = requests.post(url, data=payload, headers=headers)
+        if response.status_code == 200:
+            result = response.json()
+            if result and user == result[0].get("id"):
+                userStatus(True, name)
+
+    except Exception as e:
+        notSearch(name)
+        print(e)
 
 
 if __name__ == "__main__":
     user = input("유저명 : ")
-
+    wasm(user)
+    RedSecurity(user)
     print(forum)
     print(errorForum)
