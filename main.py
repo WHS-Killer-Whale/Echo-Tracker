@@ -38,10 +38,28 @@ def notSearch(name):
 
 
 # 여기서 부터 작성하세요
+def breachForums(user):
+    name = "breachForums"
+    url = "http://breachedu76kdyavc6szj6ppbplfqoz3pgrk3zw57my4vybgblpfeayd.onion"
+    try:
+        response = requests.get(url, headers=headers, proxies=proxies)
+        cookies = response.cookies
+        url = "http://breachedu76kdyavc6szj6ppbplfqoz3pgrk3zw57my4vybgblpfeayd.onion/User-"
+        userUrl = url + user
+        response = requests.get(
+            userUrl, headers=headers, proxies=proxies, cookies=cookies
+        )
+        if response.text.find("The member you specified is either") == -1:
+            userStatus(True, name)
+    except Exception as e:
+        notSearch(name)
 
 
 if __name__ == "__main__":
     user = input("유저명 : ")
+
+    # 여기에 추가한 함수 쓰기
+    breachForums(user)
 
     print(forum)
     print(errorForum)
