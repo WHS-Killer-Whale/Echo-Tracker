@@ -177,32 +177,32 @@ def rootme(user):
 
 
 if __name__ == "__main__":
-	while(True):
-		user = input(colored.blue("USER NAME: "))
-		_0Day(user)
-		_0x00sec(user)
-		_1877(user)
-		wasm(user)
-		redSecurity(user)
-		ramble(user)
-    R0CREW(user)
-    hack5(user)
-    rootme(user)
+    while(True):
+        user = input(colored.blue("USER NAME: "))
+        _0Day(user)
+        _0x00sec(user)
+        _1877(user)
+        wasm(user)
+        redSecurity(user)
+        ramble(user)
+        R0CREW(user)
+        hack5(user)
+        rootme(user)
 
-		print(colored.green("\n>>> DETECTED: "))
-		for i in forum:
-			print("\t" + i)
+        print(colored.green("\n>>> DETECTED: "))
+        for i in forum:
+            print("\t" + i)
 
-		print(colored.red("\n>>> unknown: ", errorForum))
-		for i in errorForum:
-			print("\t" + i)
+        print(colored.red("\n>>> unknown: ", errorForum))
+        for i in errorForum:
+            print("\t" + i)
 
-		print('\n')
-		print(colored.white("----------------------------------------------------------KILLER WHALE _whs"))
+        print('\n')
+        print(colored.white("----------------------------------------------------------KILLER WHALE _whs"))
 
-		# clear list
-		forum.clear()
-		errorForum.clear()
+        # clear list
+        forum.clear()
+        errorForum.clear()
 
 
     
