@@ -79,5 +79,9 @@ def rootme(user):
 if __name__ == "__main__":
     user = input("유저명 : ")
 
+    R0CREW(user)
+    hack5(user)
+    rootme(user)
+
     print(forum)
     print(errorForum)
