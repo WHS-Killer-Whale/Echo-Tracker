@@ -39,6 +39,42 @@ def notSearch(name):
 
 # 여기서 부터 작성하세요
 
+def R0CREW(user):
+    url = 'https://forum.reverse4you.org/'
+    name = 'R0CREW'
+    userUrl = url + 'u/' + user + '/summary'
+    try :
+        response = requests.get(userUrl, headers=headers)
+        if response.status_code == 200:
+            userStatus(True, name)
+    except :
+        notSearch(name)
+        
+        
+def hack5(user):
+    url = 'https://forums.hak5.org/search/?&q='
+    name = 'hack5'
+    userUrl = url + user + '&type=core_members&quick=1&joinedDate=any&group[10]=1'
+    try:
+        response = requests.get(userUrl, headers=headers)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        if 'Found 0 results' not in soup.text:
+            userStatus(True, name)
+    except :
+        notSearch(name)
+
+def rootme(user):
+    url = 'https://www.root-me.org/'
+    name = 'rootme'
+    userUrl = url + user
+    try :
+        response = requests.get(userUrl, headers=headers)
+        if response.status_code == 304:
+            userStatus(True, name)
+    except :
+        notSearch(name)
+
+
 
 if __name__ == "__main__":
     user = input("유저명 : ")
