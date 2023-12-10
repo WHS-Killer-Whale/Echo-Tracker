@@ -55,7 +55,6 @@ def wasm(user):
 
     except Exception as e:
         notSearch(name)
-        print(e)
 
 def redSecurity(user):
     url = "https://redsecurity.info/cc/xmlhttp.php?action=get_users"
@@ -74,7 +73,6 @@ def redSecurity(user):
 
     except Exception as e:
         notSearch(name)
-        print(e)
 
 
 if __name__ == "__main__":
