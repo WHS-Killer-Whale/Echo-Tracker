@@ -57,7 +57,7 @@ def wasm(user):
         notSearch(name)
         print(e)
 
-def RedSecurity(user):
+def redSecurity(user):
     url = "https://redsecurity.info/cc/xmlhttp.php?action=get_users"
     name = "RedSecurity"
     timestamp = int(time.time() * 1000)
@@ -80,6 +80,6 @@ def RedSecurity(user):
 if __name__ == "__main__":
     user = input("유저명 : ")
     wasm(user)
-    RedSecurity(user)
+    redSecurity(user)
     print(forum)
     print(errorForum)
