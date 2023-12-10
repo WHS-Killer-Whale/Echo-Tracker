@@ -1,4 +1,4 @@
-# WhatsMyName
+# WhatsMyName_DarkWeb
 포럼 유저를 검색하면 해당 유저가 활동하는 포럼 리스트를 볼 수 있는 CLI 툴
 
 ---
