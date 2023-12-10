@@ -5,6 +5,15 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlencode, urljoin
 import time
 
+# UI 관련 내용입니다.
+from pyfiglet import Figlet
+from clint.textui import colored
+
+f = Figlet(font='slant')
+print(colored.white("---------------------------------------------------------------------------"))
+print(f.renderText('Whats My Name'))
+print(colored.white("----------------------------------------------------------KILLER WHALE _whs"))
+
 
 proxies = {"http": "socks5h://localhost:9050", "https": "socks5h://localhost:9050"}
 
@@ -38,10 +47,62 @@ def notSearch(name):
 
 
 # 여기서 부터 작성하세요
+def _0Day(user):
+    url = "https://0day.red/"
+    name = '0Day'
+    userUrl = url + 'User-' + user
+    try:
+        response = requests.get(userUrl, headers=headers)
+        if response.status_code == 200:
+            userStatus(True, name)
+    except :
+        notSearch(name)
+
+
+def _0x00sec(user):
+    url = "https://0x00sec.org/"
+    name = '0x00sec'
+    userUrl = url + 'u/' + user
+    try:
+        response = requests.get(userUrl, headers=headers)
+        if response.status_code == 200:
+            userStatus(True, name)
+    except:
+        notSearch(name)
+        
+
+def _1877(user):
+    url = "https://1877.to/forums/"
+    name = '1877'
+    userUrl = url + user + '/'
+    try:
+        response = requests.get(userUrl, headers=headers)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        body = soup.body
+        if body and 'data-template' in body.attrs:
+            data_template_value = body['data-template']
+            if data_template_value == 'member_view':
+                userStatus(True, name)
+            elif data_template_value == 'error':
+                userStatus(False, name)
+    except:
+        notSearch(name)
+
 
 
 if __name__ == "__main__":
-    user = input("유저명 : ")
+    user = input(colored.blue("USER NAME: "))
+    _0Day(user)
+    _0x00sec(user)
+    _1877(user)
+    
+    print(colored.green("\n>>> DETECTED: "))
+    for i in forum:
+        print("\t" + i)
 
-    print(forum)
-    print(errorForum)
+    print(colored.red("\n>>> unknown: ", errorForum))
+    for i in errorForum:
+        print("\t" + i)
+
+    print('\n')
+
