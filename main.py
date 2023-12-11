@@ -174,7 +174,91 @@ def rootme(user):
     except :
         notSearch(name)
 
+def bhcforums(user):
+    query_params = {
+        'action': 'get_users',
+        'query': user,
+    }
+    url = "https://bhcforums.cc/xmlhttp.php"
+    name = 'bhcforums.cc'
+    query_string = urlencode(query_params)
+    userUrl = f"{url}?{query_string}"
+    
+    try:
+        response = requests.get(userUrl, headers=headers)
+        if response.status_code == 200:
+            json_data = response.json()
+            
+            found = False
+            for user_info in json_data:
+                if 'id' in user_info and user_info['id'] == f"{user}":
+                    userStatus(True, name)
+                    found = True
+                    break
+    except:
+        notSearch(name)
 
+def enclavecc(user):
+    query_params = {
+        'q': user,
+        'type': 'core_members',
+        'joinedDate': 'any',
+        'group[4]': '1',
+        'group[19]': '1',
+        'group[9]': '1',
+        'group[12]': '1',
+        'group[22]': '1',
+        'group[6]': '1',
+        'group[3]': '1',
+        'group[7]': '1',
+        'group[18]': '1',
+        'group[23]': '1',
+        'group[20]': '1',
+        'group[21]': '1',
+        'group[14]': '1',
+        'group[15]': '1',
+        'group[16]': '1',
+        'group[10]': '1',
+    }
+    url = "https://www.enclave.cc/index.php"
+    name = 'enclave.cc'
+    query_string = urlencode(query_params)
+    userUrl = f"{url}?/search/&{query_string}"
+    
+    try:
+        response = requests.get(userUrl, headers=headers)
+        if 'There were no results for your search. Try broadening your criteria or choosing a different content area.' in response.text:
+            pass
+        elif response.status_code == 200:
+            if (f"Go to {username}'s profile") in response.text:
+                userStatus(True, name)
+    except:
+        notSearch(name)
+    time.sleep(2)
+
+def nullbb(user):
+    query_params = {
+        'action': 'get_users',
+        'query': user,
+    }
+    url = "https://nulledbb.com/xmlhttp.php"
+    name = 'nullBB.com'
+    query_string = urlencode(query_params)
+    userUrl = f"{url}?{query_string}"
+    
+    try:
+        response = requests.get(userUrl, headers=headers)
+        if response.status_code == 200:
+            json_data = response.json()
+            
+            found = False
+            for user_info in json_data:
+                if 'id' in user_info and str(user_info['id']).lower() == username.lower():
+                    userStatus(True, name)
+                    found = True
+                    break
+    except:
+        notSearch(name)
 
 if __name__ == "__main__":
     while(True):
@@ -188,6 +272,9 @@ if __name__ == "__main__":
         R0CREW(user)
         hack5(user)
         rootme(user)
+        bhcforums(user)
+        enclavecc(user)
+        nullbb(user)
 
         print(colored.green("\n>>> DETECTED: "))
         for i in forum:
