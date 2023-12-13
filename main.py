@@ -175,24 +175,26 @@ def rootme(user):
         notSearch(name)
 
 def bhcforums(user):
+    url = "https://bhcforums.cc/xmlhttp.php"
+    name = 'bhcforums.cc'
     query_params = {
         'action': 'get_users',
         'query': user,
     }
-    url = "https://bhcforums.cc/xmlhttp.php"
-    name = 'bhcforums.cc'
-    query_string = urlencode(query_params)
-    userUrl = f"{url}?{query_string}"
+    local_headers = headers.copy()
     
+    del local_headers["Accept-Encoding"]
+    
+    query_string = urlencode(query_params)
+    full_url = f"{url}?{query_string}"
+
+    response = requests.get(full_url, headers=local_headers)
     try:
-        response = requests.get(userUrl, headers=headers)
-        if response.status_code == 200:
-            json_data = response.json()
-            
-            for user_info in json_data:
-                if 'id' in user_info and user_info['id'] == f"{user}":
-                    userStatus(True, name)
-                    break
+        json_data = response.json()
+        found = any('id' in user_info and user_info['id'] == f"{user}" for user_info in json_data)
+        
+        if found:
+                userStatus(True, name)
     except:
         notSearch(name)
 
@@ -235,24 +237,26 @@ def enclavecc(user):
     time.sleep(2)
 
 def nullbb(user):
+    url = "https://nulledbb.com/xmlhttp.php"
+    name = 'nullBB.com'
     query_params = {
         'action': 'get_users',
         'query': user,
     }
-    url = "https://nulledbb.com/xmlhttp.php"
-    name = 'nullBB.com'
-    query_string = urlencode(query_params)
-    userUrl = f"{url}?{query_string}"
+    local_headers = headers.copy()
     
+    del local_headers["Accept-Encoding"]
+    
+    query_string = urlencode(query_params)
+    full_url = f"{url}?{query_string}"
+
+    response = requests.get(full_url, headers=local_headers)
     try:
-        response = requests.get(userUrl, headers=headers)
-        if response.status_code == 200:
-            json_data = response.json()
-            
-            for user_info in json_data:
-                if 'id' in user_info and str(user_info['id']).lower() == user.lower():
-                    userStatus(True, name)
-                    break
+        json_data = response.json()
+        found = any('id' in user_info and user_info['id'] == f"{user}" for user_info in json_data)
+        
+        if found:
+                userStatus(True, name)
     except:
         notSearch(name)
 
