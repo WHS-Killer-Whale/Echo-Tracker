@@ -249,11 +249,9 @@ def nullbb(user):
         if response.status_code == 200:
             json_data = response.json()
             
-            found = False
             for user_info in json_data:
                 if 'id' in user_info and str(user_info['id']).lower() == user.lower():
                     userStatus(True, name)
-                    found = True
                     break
     except:
         notSearch(name)
