@@ -189,11 +189,9 @@ def bhcforums(user):
         if response.status_code == 200:
             json_data = response.json()
             
-            found = False
             for user_info in json_data:
                 if 'id' in user_info and user_info['id'] == f"{user}":
                     userStatus(True, name)
-                    found = True
                     break
     except:
         notSearch(name)
@@ -230,7 +228,7 @@ def enclavecc(user):
         if 'There were no results for your search. Try broadening your criteria or choosing a different content area.' in response.text:
             pass
         elif response.status_code == 200:
-            if (f"Go to {username}'s profile") in response.text:
+            if (f"Go to {user}'s profile") in response.text:
                 userStatus(True, name)
     except:
         notSearch(name)
@@ -253,7 +251,7 @@ def nullbb(user):
             
             found = False
             for user_info in json_data:
-                if 'id' in user_info and str(user_info['id']).lower() == username.lower():
+                if 'id' in user_info and str(user_info['id']).lower() == user.lower():
                     userStatus(True, name)
                     found = True
                     break
