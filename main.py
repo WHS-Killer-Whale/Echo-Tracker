@@ -206,6 +206,92 @@ def landzdown(user):
         print(e)
         notSearch(name)
 
+def bhcforums(user):
+    url = "https://bhcforums.cc/xmlhttp.php"
+    name = 'bhcforums.cc'
+    query_params = {
+        'action': 'get_users',
+        'query': user,
+    }
+    local_headers = headers.copy()
+    
+    del local_headers["Accept-Encoding"]
+    
+    query_string = urlencode(query_params)
+    full_url = f"{url}?{query_string}"
+
+    response = requests.get(full_url, headers=local_headers)
+    try:
+        json_data = response.json()
+        found = any('id' in user_info and user_info['id'] == f"{user}" for user_info in json_data)
+        
+        if found:
+                userStatus(True, name)
+    except:
+        notSearch(name)
+
+def enclavecc(user):
+    query_params = {
+        'q': user,
+        'type': 'core_members',
+        'joinedDate': 'any',
+        'group[4]': '1',
+        'group[19]': '1',
+        'group[9]': '1',
+        'group[12]': '1',
+        'group[22]': '1',
+        'group[6]': '1',
+        'group[3]': '1',
+        'group[7]': '1',
+        'group[18]': '1',
+        'group[23]': '1',
+        'group[20]': '1',
+        'group[21]': '1',
+        'group[14]': '1',
+        'group[15]': '1',
+        'group[16]': '1',
+        'group[10]': '1',
+    }
+    url = "https://www.enclave.cc/index.php"
+    name = 'enclave.cc'
+    query_string = urlencode(query_params)
+    userUrl = f"{url}?/search/&{query_string}"
+    
+    try:
+        response = requests.get(userUrl, headers=headers)
+        if 'There were no results for your search. Try broadening your criteria or choosing a different content area.' in response.text:
+            pass
+        elif response.status_code == 200:
+            if (f"Go to {user}'s profile") in response.text:
+                userStatus(True, name)
+    except:
+        notSearch(name)
+    time.sleep(2)
+
+def nullbb(user):
+    url = "https://nulledbb.com/xmlhttp.php"
+    name = 'nullBB.com'
+    query_params = {
+        'action': 'get_users',
+        'query': user,
+    }
+    local_headers = headers.copy()
+    
+    del local_headers["Accept-Encoding"]
+    
+    query_string = urlencode(query_params)
+    full_url = f"{url}?{query_string}"
+
+    response = requests.get(full_url, headers=local_headers)
+    try:
+        json_data = response.json()
+        found = any('id' in user_info and user_info['id'] == f"{user}" for user_info in json_data)
+        
+        if found:
+                userStatus(True, name)
+    except:
+        notSearch(name)
+        
 def wilderssecurity(user):
     url = "https://www.wilderssecurity.com/search/search"
     name = 'wilderssecurity'
@@ -221,7 +307,6 @@ def wilderssecurity(user):
     except :
         notSearch(name)
 
-
 if __name__ == "__main__":
     while(True):
         user = input(colored.blue("USER NAME: "))
@@ -234,6 +319,9 @@ if __name__ == "__main__":
         R0CREW(user)
         hack5(user)
         rootme(user)
+        bhcforums(user)
+        enclavecc(user)
+        nullbb(user)
         hostingforums(user)
         landzdown(user)
         wilderssecurity(user)
