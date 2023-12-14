@@ -222,7 +222,6 @@ def wilderssecurity(user):
         notSearch(name)
 
 
-
 if __name__ == "__main__":
     while(True):
         user = input(colored.blue("USER NAME: "))
