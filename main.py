@@ -190,7 +190,7 @@ def megatop(user):
         for item in json_data['results']:
             id_value = item['id']
             if id_value.lower() == user.lower():
-                forum.append(name)
+                userStatus(True, name)
     except Exception as e:
         notSearch(name)
 
@@ -210,7 +210,7 @@ def dark2web(user):
         for item in json_data['results']:
             id_value = item['id']
             if id_value.lower() == user.lower():
-                forum.append(name)
+                userStatus(True, name)
     except Exception as e:
         notSearch(name)
 
@@ -231,7 +231,7 @@ def bdfClub(user):
         for item in json_data['results']:
             id_value = item['id']
             if id_value.lower() == user.lower():
-                forum.append(name)
+                userStatus(True, name)
     except Exception as e:
         notSearch(name)
 
@@ -253,7 +253,7 @@ def infectedZone(user):
         for item in json_data['results']:
             id_value = item['id']
             if id_value.lower() == user.lower():
-                forum.append(name)
+                userStatus(True, name)
     except Exception as e:
         notSearch(name)
 
@@ -274,7 +274,7 @@ def Wjunction(user):
         for item in json_data['results']:
             id_value = item['id']
             if id_value.lower() == user.lower():
-                forum.append(name)
+                userStatus(True, name)
     except Exception as e:
         notSearch(name)
 
