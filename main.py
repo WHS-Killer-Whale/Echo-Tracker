@@ -1,5 +1,7 @@
 import requests
-# from selenium import webdriver
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 import json
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode, urljoin
@@ -174,9 +176,74 @@ def rootme(user):
     except :
         notSearch(name)
 
+<<<<<<< Updated upstream
+=======
+def landzdown(user):
+    url = "https://www.landzdown.com/index.php?action=mlist;sa=search"
+    name = 'landzdown'
+    payload = {
+        'search': user,
+        'fields[]': 'name',
+        'submit': 'Search'
+    }
+    try:
+        response = requests.post(url, headers=headers, data=payload)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            rows = soup.find_all('td', class_='real_name lefttext')
+            found = any(row.get_text(strip=True) == user for row in rows)
 
+            user_link = soup.find('a', title=f'View the profile of {user}')
+            
+            if user_link:
+                user_url = user_link['href']
+                user_id = user_url.split('=')[-1]
+                userStatus(True, name + f"(userID: {user_id})")
+    except Exception as e:
+        print(e)
+        notSearch(name)
+>>>>>>> Stashed changes
+
+
+def infectedzone(user):
+    chrome_options = Options()
+    chrome_options.add_experimental_option("detach", True)
+
+    driver = webdriver.Chrome(options=chrome_options)
+
+    url = "https://infected-zone.com/search/"
+    name = 'InfectedZone'
+    driver.get(url)
+    time.sleep(3)
+    search_elem = driver.find_element(
+        By.CSS_SELECTOR,
+        "#top > div.p-body > div > div > div > div > div > form > div > div > dl:nth-child(2)",
+    )
+    search_elem = search_elem.find_element(By.NAME, "c[users]")
+    search_elem.send_keys(user)
+
+    submit = driver.find_element(
+        By.CSS_SELECTOR,
+        "#top > div.p-body > div > div > div > div > div > form > div > dl > dd > div > div.formSubmitRow-controls > button",
+    )
+    submit.submit()
+    time.sleep(3)
+    html = driver.page_source
+
+    soup = BeautifulSoup(html, 'html.parser')
+
+    user_link = soup.find('a', class_='username')
+    if user_link:
+        data_user_id = user_link.get('data-user-id')
+        userStatus(True, name + f"(userID: {data_user_id})")
+    else:
+        notSearch(name)
+    driver.close()
+
+    
 
 if __name__ == "__main__":
+<<<<<<< Updated upstream
 	while(True):
 		user = input(colored.blue("USER NAME: "))
 		_0Day(user)
@@ -188,6 +255,26 @@ if __name__ == "__main__":
     R0CREW(user)
     hack5(user)
     rootme(user)
+=======
+    while(True):
+        user = input(colored.blue("USER NAME: "))
+        _0Day(user)
+        _0x00sec(user)
+        _1877(user)
+        wasm(user)
+        redSecurity(user)
+        ramble(user)
+        R0CREW(user)
+        hack5(user)
+        rootme(user)
+        bhcforums(user)
+        enclavecc(user)
+        nullbb(user)
+        hostingforums(user)
+        landzdown(user)
+        wilderssecurity(user)
+        infectedzone(user)
+>>>>>>> Stashed changes
 
 		print(colored.green("\n>>> DETECTED: "))
 		for i in forum:
