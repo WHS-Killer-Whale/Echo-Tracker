@@ -46,6 +46,7 @@ def notSearch(name):
     errorForum.append(name)
 
 
+
 # 여기서 부터 작성하세요
 def _0Day(user):
     url = "https://0day.red/"
@@ -173,6 +174,17 @@ def rootme(user):
             userStatus(True, name)
     except :
         notSearch(name)
+       
+def hostingforums(user):
+    url = "https://hostingforums.net/u/"
+    name = 'hostingforums'
+    userUrl = url + user
+    try :
+        response = requests.get(userUrl, headers=headers)
+        if response.status_code == 200:
+            userStatus(True, name)
+    except :
+        notSearch(name)
 
 def megatop(user):
     url = 'https://megatop.biz/forum/'
@@ -195,17 +207,17 @@ def megatop(user):
         notSearch(name)
 
 def dark2web(user):
-    url = "https://web-2.gate2dark.top"
+    url = "https://web-1.gate2dark.online/"
     name = 'dark2web'
     try:
-        response = requests.get(url ,headers = headers)
+        response = requests.get(url)
         cookies = response.cookies
         html = response.text
         soup = BeautifulSoup(html, 'html.parser')
         element = soup.find(id='XF')
         data_csrf = element['data-csrf']
-        url = 'https://web-2.gate2dark.top/index.php?members/find&_xfRequestUri=%2Fmembers%2F&_xfWithData=1&_xfResponseType=json&_xfToken='+data_csrf+'&q='+user
-        response = requests.post(url,headers=headers, cookies=cookies)
+        url = 'https://web-1.gate2dark.online/index.php?members/find&_xfRequestUri=%2Fmembers%2F&_xfWithData=1&_xfResponseType=json&_xfToken='+data_csrf+'&q='+user
+        response = requests.post(url, cookies=cookies)
         json_data = response.json()
         for item in json_data['results']:
             id_value = item['id']
@@ -219,14 +231,14 @@ def bdfClub(user):
     url = "https://bdfclub.com"
     name = 'BDF CLUB'
     try:
-        response = requests.get(url ,headers = headers)
+        response = requests.get(url)
         cookies = response.cookies
         html = response.text
         soup = BeautifulSoup(html, 'html.parser')
         element = soup.find(id='XF')
         data_csrf = element['data-csrf']
         url = 'https://bdfclub.com/index.php?members/find&_xfRequestUri=%2Fmembers%2F&_xfWithData=1&_xfResponseType=json&_xfToken='+data_csrf+'&q='+user
-        response = requests.post(url,headers=headers, cookies=cookies)
+        response = requests.post(url, cookies=cookies)
         json_data = response.json()
         for item in json_data['results']:
             id_value = item['id']
@@ -241,14 +253,14 @@ def infectedZone(user):
     url = "https://infected-zone.com"
     name = 'infected-zone'
     try:
-        response = requests.get(url, headers=headers)
+        response = requests.get(url)
         cookies = response.cookies
         html = response.text
         soup = BeautifulSoup(html, 'html.parser')
         element = soup.find(id='XF')
         data_csrf = element['data-csrf']
         url = 'https://infected-zone.com/index.php?members/find&&_xfRequestUri=%2Fforum%2F&_xfWithData=1&_xfToken='+data_csrf+'&_xfResponseType=json&q='+user
-        response = requests.get(url, headers=headers, cookies=cookies)
+        response = requests.get(url, cookies=cookies)
         json_data = response.json()
         for item in json_data['results']:
             id_value = item['id']
@@ -262,14 +274,14 @@ def Wjunction(user):
     url = "https://www.wjunction.com/"
     name = "Wjunction"
     try:
-        response = requests.get(url ,headers = headers)
+        response = requests.get(url)
         cookies = response.cookies
         html = response.text
         soup = BeautifulSoup(html, 'html.parser')
         element = soup.find(id='XF')
         data_csrf = element['data-csrf']
         url = 'https://www.wjunction.com/index.php?members/find&_xfRequestUri=%2Fmembers%2F&_xfWithData=1&_xfResponseType=json&_xfToken='+data_csrf+'&q='+user
-        response = requests.post(url,headers=headers, cookies=cookies)
+        response = requests.post(url, cookies=cookies)
         json_data = response.json()
         for item in json_data['results']:
             id_value = item['id']
@@ -279,7 +291,126 @@ def Wjunction(user):
         notSearch(name)
 
 
+def landzdown(user):
+    url = "https://www.landzdown.com/index.php?action=mlist;sa=search"
+    name = 'landzdown'
+    payload = {
+        'search': user,
+        'fields[]': 'name',
+        'submit': 'Search'
+    }
+    
+    try:
+        response = requests.post(url, headers=headers, data=payload)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            rows = soup.find_all('td', class_='real_name lefttext')
+            found = any(row.get_text(strip=True) == user for row in rows)
+            userStatus(found, name)
+    except Exception as e:
+        print(e)
+        notSearch(name)
 
+def bhcforums(user):
+    url = "https://bhcforums.cc/xmlhttp.php"
+    name = 'bhcforums.cc'
+    query_params = {
+        'action': 'get_users',
+        'query': user,
+    }
+    local_headers = headers.copy()
+    
+    del local_headers["Accept-Encoding"]
+    
+    query_string = urlencode(query_params)
+    full_url = f"{url}?{query_string}"
+
+    response = requests.get(full_url, headers=local_headers)
+    try:
+        json_data = response.json()
+        found = any('id' in user_info and user_info['id'] == f"{user}" for user_info in json_data)
+        
+        if found:
+                userStatus(True, name)
+    except:
+        notSearch(name)
+
+def enclavecc(user):
+    query_params = {
+        'q': user,
+        'type': 'core_members',
+        'joinedDate': 'any',
+        'group[4]': '1',
+        'group[19]': '1',
+        'group[9]': '1',
+        'group[12]': '1',
+        'group[22]': '1',
+        'group[6]': '1',
+        'group[3]': '1',
+        'group[7]': '1',
+        'group[18]': '1',
+        'group[23]': '1',
+        'group[20]': '1',
+        'group[21]': '1',
+        'group[14]': '1',
+        'group[15]': '1',
+        'group[16]': '1',
+        'group[10]': '1',
+    }
+    url = "https://www.enclave.cc/index.php"
+    name = 'enclave.cc'
+    query_string = urlencode(query_params)
+    userUrl = f"{url}?/search/&{query_string}"
+    
+    try:
+        response = requests.get(userUrl, headers=headers)
+        if 'There were no results for your search. Try broadening your criteria or choosing a different content area.' in response.text:
+            pass
+        elif response.status_code == 200:
+            if (f"Go to {user}'s profile") in response.text:
+                userStatus(True, name)
+    except:
+        notSearch(name)
+    time.sleep(2)
+
+def nullbb(user):
+    url = "https://nulledbb.com/xmlhttp.php"
+    name = 'nullBB.com'
+    query_params = {
+        'action': 'get_users',
+        'query': user,
+    }
+    local_headers = headers.copy()
+    
+    del local_headers["Accept-Encoding"]
+    
+    query_string = urlencode(query_params)
+    full_url = f"{url}?{query_string}"
+
+    response = requests.get(full_url, headers=local_headers)
+    try:
+        json_data = response.json()
+        found = any('id' in user_info and user_info['id'] == f"{user}" for user_info in json_data)
+        
+        if found:
+                userStatus(True, name)
+    except:
+        notSearch(name)
+        
+def wilderssecurity(user):
+    url = "https://www.wilderssecurity.com/search/search"
+    name = 'wilderssecurity'
+    payload = {
+        "keywords": "",
+        "users": user,
+        "date": "",
+        "_xfToken": ""}
+    try :
+        response = requests.post(url, headers=headers, data=payload)
+        if 'The following members could not be found' not in response.text:
+            userStatus(True, name)
+    except :
+        notSearch(name)
 
 if __name__ == "__main__":
     while(True):
@@ -298,6 +429,12 @@ if __name__ == "__main__":
         bdfClub(user)
         infectedZone(user)
         Wjunction(user)
+        bhcforums(user)
+        enclavecc(user)
+        nullbb(user)
+        hostingforums(user)
+        landzdown(user)
+        wilderssecurity(user)
 
         print(colored.green("\n>>> DETECTED: "))
         for i in forum:
@@ -313,6 +450,3 @@ if __name__ == "__main__":
         # clear list
         forum.clear()
         errorForum.clear()
-
-
-    
