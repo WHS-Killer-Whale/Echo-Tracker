@@ -186,6 +186,111 @@ def hostingforums(user):
     except :
         notSearch(name)
 
+def megatop(user):
+    url = 'https://megatop.biz/forum/'
+    name = 'megatop'
+    try:
+        response = requests.get(url, headers=headers)
+        cookies = response.cookies
+        html = response.text
+        soup = BeautifulSoup(html, 'html.parser')
+        element = soup.find(id='XF')
+        data_csrf = element['data-csrf']
+        url = 'https://megatop.biz/index.php?members/find&&_xfRequestUri=%2Fforum%2F&_xfWithData=1&_xfToken='+data_csrf+'&_xfResponseType=json&q='+user
+        response = requests.get(url, headers=headers, cookies=cookies)
+        json_data = response.json()
+        for item in json_data['results']:
+            id_value = item['id']
+            if id_value.lower() == user.lower():
+                userStatus(True, name)
+    except Exception as e:
+        notSearch(name)
+
+def dark2web(user):
+    url = "https://web-1.gate2dark.online/"
+    name = 'dark2web'
+    try:
+        response = requests.get(url)
+        cookies = response.cookies
+        html = response.text
+        soup = BeautifulSoup(html, 'html.parser')
+        element = soup.find(id='XF')
+        data_csrf = element['data-csrf']
+        url = 'https://web-1.gate2dark.online/index.php?members/find&_xfRequestUri=%2Fmembers%2F&_xfWithData=1&_xfResponseType=json&_xfToken='+data_csrf+'&q='+user
+        response = requests.post(url, cookies=cookies)
+        json_data = response.json()
+        for item in json_data['results']:
+            id_value = item['id']
+            if id_value.lower() == user.lower():
+                userStatus(True, name)
+    except Exception as e:
+        notSearch(name)
+
+
+def bdfClub(user):
+    url = "https://bdfclub.com"
+    name = 'BDF CLUB'
+    try:
+        response = requests.get(url)
+        cookies = response.cookies
+        html = response.text
+        soup = BeautifulSoup(html, 'html.parser')
+        element = soup.find(id='XF')
+        data_csrf = element['data-csrf']
+        url = 'https://bdfclub.com/index.php?members/find&_xfRequestUri=%2Fmembers%2F&_xfWithData=1&_xfResponseType=json&_xfToken='+data_csrf+'&q='+user
+        response = requests.post(url, cookies=cookies)
+        json_data = response.json()
+        for item in json_data['results']:
+            id_value = item['id']
+            if id_value.lower() == user.lower():
+                userStatus(True, name)
+    except Exception as e:
+        notSearch(name)
+
+
+
+def infectedZone(user):
+    url = "https://infected-zone.com"
+    name = 'infected-zone'
+    try:
+        response = requests.get(url)
+        cookies = response.cookies
+        html = response.text
+        soup = BeautifulSoup(html, 'html.parser')
+        element = soup.find(id='XF')
+        data_csrf = element['data-csrf']
+        url = 'https://infected-zone.com/index.php?members/find&&_xfRequestUri=%2Fforum%2F&_xfWithData=1&_xfToken='+data_csrf+'&_xfResponseType=json&q='+user
+        response = requests.get(url, cookies=cookies)
+        json_data = response.json()
+        for item in json_data['results']:
+            id_value = item['id']
+            if id_value.lower() == user.lower():
+                userStatus(True, name)
+    except Exception as e:
+        notSearch(name)
+
+
+def Wjunction(user):
+    url = "https://www.wjunction.com/"
+    name = "Wjunction"
+    try:
+        response = requests.get(url)
+        cookies = response.cookies
+        html = response.text
+        soup = BeautifulSoup(html, 'html.parser')
+        element = soup.find(id='XF')
+        data_csrf = element['data-csrf']
+        url = 'https://www.wjunction.com/index.php?members/find&_xfRequestUri=%2Fmembers%2F&_xfWithData=1&_xfResponseType=json&_xfToken='+data_csrf+'&q='+user
+        response = requests.post(url, cookies=cookies)
+        json_data = response.json()
+        for item in json_data['results']:
+            id_value = item['id']
+            if id_value.lower() == user.lower():
+                userStatus(True, name)
+    except Exception as e:
+        notSearch(name)
+
+
 def landzdown(user):
     url = "https://www.landzdown.com/index.php?action=mlist;sa=search"
     name = 'landzdown'
@@ -319,6 +424,11 @@ if __name__ == "__main__":
         R0CREW(user)
         hack5(user)
         rootme(user)
+        megatop(user)
+        dark2web(user)
+        bdfClub(user)
+        infectedZone(user)
+        Wjunction(user)
         bhcforums(user)
         enclavecc(user)
         nullbb(user)
