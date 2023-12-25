@@ -71,7 +71,7 @@ def dark2web(user):
         notSearch(name)
 
 if __name__ == "__main__":
-    user = input("유저명 : ")
+    user = input("USER NAME : ")
     dark2web(user)
 
     print(colored.green("\n>>> DETECTED: "))
