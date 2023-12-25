@@ -47,7 +47,186 @@ def notSearch(name):
 
 
 
-# 여기서 부터 작성하세요   
+# 여기서 부터 작성하세요
+def _0Day(user):
+    url = "https://0day.red/"
+    name = '0Day'
+    userUrl = url + 'User-' + user
+    try:
+        response = requests.get(userUrl, headers=headers)
+        if response.status_code == 200:
+            userStatus(True, name)
+    except :
+        notSearch(name)
+
+
+def _0x00sec(user):
+    url = "https://0x00sec.org/"
+    name = '0x00sec'
+    userUrl = url + 'u/' + user
+    try:
+        response = requests.get(userUrl, headers=headers)
+        if response.status_code == 200:
+            userStatus(True, name)
+    except:
+        notSearch(name)
+        
+
+def _1877(user):
+    url = "https://1877.to/forums/"
+    name = '1877'
+    userUrl = url + user + '/'
+    try:
+        response = requests.get(userUrl, headers=headers)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        body = soup.body
+        if body and 'data-template' in body.attrs:
+            data_template_value = body['data-template']
+            if data_template_value == 'member_view':
+                userStatus(True, name)
+            elif data_template_value == 'error':
+                userStatus(False, name)
+    except:
+        notSearch(name)
+
+def wasm(user):
+    url = "https://wasm.in/index.php?members/find"
+    name = "Wasm.in"
+    payload = {
+        "q": user,
+        "_xfRequestUri": "/",
+        "_xfNoRedirect": 1,
+        "_xfResponseType": "json"
+    }
+    try:
+        response = requests.post(url, data=payload, headers=headers)
+
+        if response.status_code == 200 and user in response.json().get("results", {}):
+            userStatus(True, name)
+
+    except Exception as e:
+        notSearch(name)
+
+def redSecurity(user):
+    url = "https://redsecurity.info/cc/xmlhttp.php?action=get_users"
+    name = "RedSecurity"
+    timestamp = int(time.time() * 1000)
+    payload = {
+        "query": user,
+        "_": timestamp
+    }
+    try:
+        response = requests.post(url, data=payload, headers=headers)
+        if response.status_code == 200:
+            result = response.json()
+            if result and user == result[0].get("id"):
+                userStatus(True, name)
+
+    except Exception as e:
+        notSearch(name)
+
+def ramble(user):
+    name = "ramble"
+    url = (
+        "http://rambleeeqrhty6s5jgefdfdtc6tfgg4jj6svr4jpgk4wjtg3qshwbaad.onion/user/"
+        + user
+    )
+    try:
+        response = requests.get(url, proxies=proxies)
+        if response.status_code == 200:
+            userStatus(True, name)
+        else:
+            pass
+    except:
+        notSearch(name)
+
+def R0CREW(user):
+    url = 'https://forum.reverse4you.org/'
+    name = 'R0CREW'
+    userUrl = url + 'u/' + user + '/summary'
+    try :
+        response = requests.get(userUrl, headers=headers)
+        if response.status_code == 200:
+            userStatus(True, name)
+    except :
+        notSearch(name)
+        
+        
+def hack5(user):
+    url = 'https://forums.hak5.org/search/?&q='
+    name = 'hack5'
+    userUrl = url + user + '&type=core_members&quick=1&joinedDate=any&group[10]=1'
+    try:
+        response = requests.get(userUrl, headers=headers)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        if 'Found 0 results' not in soup.text:
+            userStatus(True, name)
+    except :
+        notSearch(name)
+
+def rootme(user):
+    url = 'https://www.root-me.org/'
+    name = 'rootme'
+    userUrl = url + user
+    try :
+        response = requests.get(userUrl, headers=headers)
+        if response.status_code == 304:
+            userStatus(True, name)
+    except :
+        notSearch(name)
+       
+def hostingforums(user):
+    url = "https://hostingforums.net/u/"
+    name = 'hostingforums'
+    userUrl = url + user
+    try :
+        response = requests.get(userUrl, headers=headers)
+        if response.status_code == 200:
+            userStatus(True, name)
+    except :
+        notSearch(name)
+
+def megatop(user):
+    url = 'https://megatop.biz/forum/'
+    name = 'megatop'
+    try:
+        response = requests.get(url, headers=headers)
+        cookies = response.cookies
+        html = response.text
+        soup = BeautifulSoup(html, 'html.parser')
+        element = soup.find(id='XF')
+        data_csrf = element['data-csrf']
+        url = 'https://megatop.biz/index.php?members/find&&_xfRequestUri=%2Fforum%2F&_xfWithData=1&_xfToken='+data_csrf+'&_xfResponseType=json&q='+user
+        response = requests.get(url, headers=headers, cookies=cookies)
+        json_data = response.json()
+        for item in json_data['results']:
+            id_value = item['id']
+            if id_value.lower() == user.lower():
+                userStatus(True, name)
+    except Exception as e:
+        notSearch(name)
+
+def dark2web(user):
+    url = "https://web-1.gate2dark.online/"
+    name = 'dark2web'
+    try:
+        response = requests.get(url)
+        cookies = response.cookies
+        html = response.text
+        soup = BeautifulSoup(html, 'html.parser')
+        element = soup.find(id='XF')
+        data_csrf = element['data-csrf']
+        url = 'https://web-1.gate2dark.online/index.php?members/find&_xfRequestUri=%2Fmembers%2F&_xfWithData=1&_xfResponseType=json&_xfToken='+data_csrf+'&q='+user
+        response = requests.post(url, cookies=cookies)
+        json_data = response.json()
+        for item in json_data['results']:
+            id_value = item['id']
+            if id_value.lower() == user.lower():
+                userStatus(True, name)
+    except Exception as e:
+        notSearch(name)
+
+
 def bdfClub(user):
     url = "https://bdfclub.com"
     name = 'BDF CLUB'
@@ -69,6 +248,156 @@ def bdfClub(user):
     except Exception as e:
         notSearch(name)
 
+
+
+def infectedZone(user):
+    url = "https://infected-zone.com"
+    name = 'infected-zone'
+    try:
+        response = requests.get(url)
+        cookies = response.cookies
+        html = response.text
+        soup = BeautifulSoup(html, 'html.parser')
+        element = soup.find(id='XF')
+        data_csrf = element['data-csrf']
+        url = 'https://infected-zone.com/index.php?members/find&&_xfRequestUri=%2Fforum%2F&_xfWithData=1&_xfToken='+data_csrf+'&_xfResponseType=json&q='+user
+        response = requests.get(url, cookies=cookies)
+        json_data = response.json()
+        for item in json_data['results']:
+            id_value = item['id']
+            if id_value.lower() == user.lower():
+                userStatus(True, name)
+    except Exception as e:
+        notSearch(name)
+
+
+def Wjunction(user):
+    url = "https://www.wjunction.com/"
+    name = "Wjunction"
+    try:
+        response = requests.get(url)
+        cookies = response.cookies
+        html = response.text
+        soup = BeautifulSoup(html, 'html.parser')
+        element = soup.find(id='XF')
+        data_csrf = element['data-csrf']
+        url = 'https://www.wjunction.com/index.php?members/find&_xfRequestUri=%2Fmembers%2F&_xfWithData=1&_xfResponseType=json&_xfToken='+data_csrf+'&q='+user
+        response = requests.post(url, cookies=cookies)
+        json_data = response.json()
+        for item in json_data['results']:
+            id_value = item['id']
+            if id_value.lower() == user.lower():
+                userStatus(True, name)
+    except Exception as e:
+        notSearch(name)
+
+
+def landzdown(user):
+    url = "https://www.landzdown.com/index.php?action=mlist;sa=search"
+    name = 'landzdown'
+    payload = {
+        'search': user,
+        'fields[]': 'name',
+        'submit': 'Search'
+    }
+    
+    try:
+        response = requests.post(url, headers=headers, data=payload)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            rows = soup.find_all('td', class_='real_name lefttext')
+            found = any(row.get_text(strip=True) == user for row in rows)
+            userStatus(found, name)
+    except Exception as e:
+        print(e)
+        notSearch(name)
+
+def bhcforums(user):
+    url = "https://bhcforums.cc/xmlhttp.php"
+    name = 'bhcforums.cc'
+    query_params = {
+        'action': 'get_users',
+        'query': user,
+    }
+    local_headers = headers.copy()
+    
+    del local_headers["Accept-Encoding"]
+    
+    query_string = urlencode(query_params)
+    full_url = f"{url}?{query_string}"
+
+    response = requests.get(full_url, headers=local_headers)
+    try:
+        json_data = response.json()
+        found = any('id' in user_info and user_info['id'] == f"{user}" for user_info in json_data)
+        
+        if found:
+                userStatus(True, name)
+    except:
+        notSearch(name)
+
+def enclavecc(user):
+    query_params = {
+        'q': user,
+        'type': 'core_members',
+        'joinedDate': 'any',
+        'group[4]': '1',
+        'group[19]': '1',
+        'group[9]': '1',
+        'group[12]': '1',
+        'group[22]': '1',
+        'group[6]': '1',
+        'group[3]': '1',
+        'group[7]': '1',
+        'group[18]': '1',
+        'group[23]': '1',
+        'group[20]': '1',
+        'group[21]': '1',
+        'group[14]': '1',
+        'group[15]': '1',
+        'group[16]': '1',
+        'group[10]': '1',
+    }
+    url = "https://www.enclave.cc/index.php"
+    name = 'enclave.cc'
+    query_string = urlencode(query_params)
+    userUrl = f"{url}?/search/&{query_string}"
+    
+    try:
+        response = requests.get(userUrl, headers=headers)
+        if 'There were no results for your search. Try broadening your criteria or choosing a different content area.' in response.text:
+            pass
+        elif response.status_code == 200:
+            if (f"Go to {user}'s profile") in response.text:
+                userStatus(True, name)
+    except:
+        notSearch(name)
+    time.sleep(2)
+
+def nullbb(user):
+    url = "https://nulledbb.com/xmlhttp.php"
+    name = 'nullBB.com'
+    query_params = {
+        'action': 'get_users',
+        'query': user,
+    }
+    local_headers = headers.copy()
+    
+    del local_headers["Accept-Encoding"]
+    
+    query_string = urlencode(query_params)
+    full_url = f"{url}?{query_string}"
+
+    response = requests.get(full_url, headers=local_headers)
+    try:
+        json_data = response.json()
+        found = any('id' in user_info and user_info['id'] == f"{user}" for user_info in json_data)
+        
+        if found:
+                userStatus(True, name)
+    except:
+        notSearch(name)
+        
 def wilderssecurity(user):
     url = "https://www.wilderssecurity.com/search/search"
     name = 'wilderssecurity'
