@@ -262,10 +262,17 @@ def infectedZone(user):
         url = 'https://infected-zone.com/index.php?members/find&&_xfRequestUri=%2Fforum%2F&_xfWithData=1&_xfToken='+data_csrf+'&_xfResponseType=json&q='+user
         response = requests.get(url, cookies=cookies)
         json_data = response.json()
-        for item in json_data['results']:
-            id_value = item['id']
-            if id_value.lower() == user.lower():
-                userStatus(True, name)
+        for item in json_data.get('results', []):
+            id_value = item.get('id', '').lower()
+            text = item.get('text')
+            icon_html = item.get('iconHtml', '')
+
+            if id_value == user.lower():
+                # Process 'iconHtml' directly within the main loop
+                avatar_span = BeautifulSoup(icon_html, 'html.parser').find('span', class_='avatar--xxs')
+                data_user_id = avatar_span.get('data-user-id')
+                userStatus(True, name + f"(userID: {data_user_id})")
+                return
     except Exception as e:
         notSearch(name)
 
@@ -302,11 +309,21 @@ def landzdown(user):
     
     try:
         response = requests.post(url, headers=headers, data=payload)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, 'html.parser')
-            rows = soup.find_all('td', class_='real_name lefttext')
-            found = any(row.get_text(strip=True) == user for row in rows)
-            userStatus(found, name)
+        response.raise_for_status()
+
+        soup = BeautifulSoup(response.text, 'html.parser')
+        rows = soup.find_all('td', class_='real_name lefttext')
+
+        found = any(row.get_text(strip=True) == user for row in rows)
+
+        if found:
+            user_link = soup.find('a', title=f'View the profile of {user}')
+
+            if user_link:
+                user_url = user_link['href']
+                user_id = user_url.split('=')[-1]
+                userStatus(True, name + f"(userID: {user_id})")
+
     except Exception as e:
         print(e)
         notSearch(name)
