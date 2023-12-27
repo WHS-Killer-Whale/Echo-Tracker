@@ -90,17 +90,38 @@ def _0x00sec(user):
         
 
 def _1877(user):
-    url = "https://1877.to/forums/"
+    url = "https://1877.to/forums/search/"
     name = '1877'
-    userUrl = url + user + '/'
+    
+    paylaod = {
+        "keywords": "",
+        "c[users]": user,
+        "c[newer_than]": "",
+        "c[older_than]": "",
+        "order": "date",
+        "search_type": ""
+    }
+
     try:
-        response = requests.get(userUrl, headers=headers)
+        response = requests.get(url, headers=headers)
+        cookies = response.cookies
+        soup = BeautifulSoup(response.text, 'html.parser')
+        body = soup.body
+        form = body.find('form')
+        find_token = form.find('input', {'name': '_xfToken'})
+        token = find_token['value']
+
+        paylaod["_xfToken"] = token
+
+        response = requests.post(url+"search", headers=headers, data=paylaod, cookies=cookies)
         soup = BeautifulSoup(response.text, 'html.parser')
         body = soup.body
         if body and 'data-template' in body.attrs:
             data_template_value = body['data-template']
-            if data_template_value == 'member_view':
-                userStatus(True, name)
+            if data_template_value == 'search_results':
+                find_user_id = body.find('a', class_='username')
+                user_id = find_user_id.get("data-user-id")
+                userStatus(True, name + f"(userID: {user_id})")
             elif data_template_value == 'error':
                 userStatus(False, name)
     except:
@@ -403,7 +424,7 @@ def enclavecc(user):
 
 def nullbb(user):
     url = "https://nulledbb.com/xmlhttp.php"
-    name = 'nullBB.com'
+    name = 'NulledBB'
     query_params = {
         'action': 'get_users',
         'query': user,
@@ -421,7 +442,8 @@ def nullbb(user):
         found = any('id' in user_info and user_info['id'] == f"{user}" for user_info in json_data)
         
         if found:
-                userStatus(True, name)
+                user_id = json_data[0]['uid']
+                userStatus(True, name+f"(userID: {user_id})")
     except:
         notSearch(name)
         
