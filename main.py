@@ -242,8 +242,8 @@ def bdfClub(user):
         json_data = response.json()
         for item in json_data['results']:
             id_value = item['id']
+            userid = item['data-user-id']
             if id_value.lower() == user.lower():
-                userid = item['data-user-id']
                 userStatus(True, name + f" (userID: {userid})")
     except Exception as e:
         notSearch(name)
