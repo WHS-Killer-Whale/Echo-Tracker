@@ -4,6 +4,7 @@ import json
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode, urljoin
 import time
+import re
 
 # UI 관련 내용입니다.
 from pyfiglet import Figlet
@@ -13,6 +14,7 @@ f = Figlet(font='slant')
 print(colored.white("---------------------------------------------------------------------------"))
 print(f.renderText('Whats My Name'))
 print(colored.white("----------------------------------------------------------KILLER WHALE _whs"))
+
 
 proxies = {"http": "socks5h://localhost:9050", "https": "socks5h://localhost:9050"}
 
@@ -45,7 +47,24 @@ def notSearch(name):
     errorForum.append(name)
 
 
+
 # 여기서 부터 작성하세요
+def breachForums(user):
+    name = "breachForums"
+    url = "http://breachedu76kdyavc6szj6ppbplfqoz3pgrk3zw57my4vybgblpfeayd.onion"
+    try:
+        response = requests.get(url, headers=headers, proxies=proxies)
+        cookies = response.cookies
+        url = "http://breachedu76kdyavc6szj6ppbplfqoz3pgrk3zw57my4vybgblpfeayd.onion/User-"
+        userUrl = url + user
+        response = requests.get(
+            userUrl, headers=headers, proxies=proxies, cookies=cookies
+        )
+        if response.text.find("The member you specified is either") == -1:
+            userStatus(True, name)
+    except Exception as e:
+        notSearch(name)
+
 def _0Day(user):
     url = "https://0day.red/"
     name = '0Day'
@@ -54,7 +73,7 @@ def _0Day(user):
         response = requests.get(userUrl, headers=headers)
         if response.status_code == 200:
             userStatus(True, name)
-    except:
+    except :
         notSearch(name)
 
 
@@ -68,7 +87,7 @@ def _0x00sec(user):
             userStatus(True, name)
     except:
         notSearch(name)
-
+        
 
 def _1877(user):
     url = "https://1877.to/forums/"
@@ -89,7 +108,6 @@ def _1877(user):
     except:
         notSearch(name)
 
-
 def wasm(user):
     url = "https://wasm.in/index.php?members/find"
     name = "Wasm.in"
@@ -108,7 +126,6 @@ def wasm(user):
     except Exception as e:
         notSearch(name)
 
-
 def redSecurity(user):
     url = "https://redsecurity.info/cc/xmlhttp.php?action=get_users"
     name = "RedSecurity"
@@ -122,17 +139,17 @@ def redSecurity(user):
         if response.status_code == 200:
             result = response.json()
             if result and user == result[0].get("id"):
-                userStatus(True, name)
+                userid = result[0].get("uid")
+                userStatus(True, name+f"(userID: {userid})")
 
     except Exception as e:
         notSearch(name)
 
-
 def ramble(user):
     name = "ramble"
     url = (
-            "http://rambleeeqrhty6s5jgefdfdtc6tfgg4jj6svr4jpgk4wjtg3qshwbaad.onion/user/"
-            + user
+        "http://rambleeeqrhty6s5jgefdfdtc6tfgg4jj6svr4jpgk4wjtg3qshwbaad.onion/user/"
+        + user
     )
     try:
         response = requests.get(url, proxies=proxies)
@@ -143,19 +160,18 @@ def ramble(user):
     except:
         notSearch(name)
 
-
 def R0CREW(user):
     url = 'https://forum.reverse4you.org/'
     name = 'R0CREW'
     userUrl = url + 'u/' + user + '/summary'
-    try:
+    try :
         response = requests.get(userUrl, headers=headers)
         if response.status_code == 200:
             userStatus(True, name)
-    except:
+    except :
         notSearch(name)
-
-
+        
+        
 def hack5(user):
     url = 'https://forums.hak5.org/search/?&q='
     name = 'hack5'
@@ -165,33 +181,30 @@ def hack5(user):
         soup = BeautifulSoup(response.text, 'html.parser')
         if 'Found 0 results' not in soup.text:
             userStatus(True, name)
-    except:
+    except :
         notSearch(name)
-
 
 def rootme(user):
     url = 'https://www.root-me.org/'
     name = 'rootme'
     userUrl = url + user
-    try:
+    try :
         response = requests.get(userUrl, headers=headers)
         if response.status_code == 304:
             userStatus(True, name)
-    except:
+    except :
         notSearch(name)
-
-
+       
 def hostingforums(user):
     url = "https://hostingforums.net/u/"
     name = 'hostingforums'
     userUrl = url + user
-    try:
+    try :
         response = requests.get(userUrl, headers=headers)
         if response.status_code == 200:
             userStatus(True, name)
-    except:
+    except :
         notSearch(name)
-
 
 def megatop(user):
     url = 'https://megatop.biz/forum/'
@@ -203,7 +216,7 @@ def megatop(user):
         soup = BeautifulSoup(html, 'html.parser')
         element = soup.find(id='XF')
         data_csrf = element['data-csrf']
-        url = 'https://megatop.biz/index.php?members/find&&_xfRequestUri=%2Fforum%2F&_xfWithData=1&_xfToken=' + data_csrf + '&_xfResponseType=json&q=' + user
+        url = 'https://megatop.biz/index.php?members/find&&_xfRequestUri=%2Fforum%2F&_xfWithData=1&_xfToken='+data_csrf+'&_xfResponseType=json&q='+user
         response = requests.get(url, headers=headers, cookies=cookies)
         json_data = response.json()
         for item in json_data['results']:
@@ -212,7 +225,6 @@ def megatop(user):
                 userStatus(True, name)
     except Exception as e:
         notSearch(name)
-
 
 def dark2web(user):
     url = "https://web-1.gate2dark.online/"
@@ -224,7 +236,7 @@ def dark2web(user):
         soup = BeautifulSoup(html, 'html.parser')
         element = soup.find(id='XF')
         data_csrf = element['data-csrf']
-        url = 'https://web-1.gate2dark.online/index.php?members/find&_xfRequestUri=%2Fmembers%2F&_xfWithData=1&_xfResponseType=json&_xfToken=' + data_csrf + '&q=' + user
+        url = 'https://web-1.gate2dark.online/index.php?members/find&_xfRequestUri=%2Fmembers%2F&_xfWithData=1&_xfResponseType=json&_xfToken='+data_csrf+'&q='+user
         response = requests.post(url, cookies=cookies)
         json_data = response.json()
         for item in json_data['results']:
@@ -233,6 +245,7 @@ def dark2web(user):
                 userStatus(True, name)
     except Exception as e:
         notSearch(name)
+
 
 
 def bdfClub(user):
@@ -245,7 +258,7 @@ def bdfClub(user):
         soup = BeautifulSoup(html, 'html.parser')
         element = soup.find(id='XF')
         data_csrf = element['data-csrf']
-        url = 'https://bdfclub.com/index.php?members/find&_xfRequestUri=%2Fmembers%2F&_xfWithData=1&_xfResponseType=json&_xfToken=' + data_csrf + '&q=' + user
+        url = 'https://bdfclub.com/index.php?members/find&_xfRequestUri=%2Fmembers%2F&_xfWithData=1&_xfResponseType=json&_xfToken='+data_csrf+'&q='+user
         response = requests.post(url, cookies=cookies)
         json_data = response.json()
         for item in json_data['results']:
@@ -254,6 +267,7 @@ def bdfClub(user):
                 userStatus(True, name)
     except Exception as e:
         notSearch(name)
+
 
 
 def infectedZone(user):
@@ -266,7 +280,7 @@ def infectedZone(user):
         soup = BeautifulSoup(html, 'html.parser')
         element = soup.find(id='XF')
         data_csrf = element['data-csrf']
-        url = 'https://infected-zone.com/index.php?members/find&&_xfRequestUri=%2Fforum%2F&_xfWithData=1&_xfToken=' + data_csrf + '&_xfResponseType=json&q=' + user
+        url = 'https://infected-zone.com/index.php?members/find&&_xfRequestUri=%2Fforum%2F&_xfWithData=1&_xfToken='+data_csrf+'&_xfResponseType=json&q='+user
         response = requests.get(url, cookies=cookies)
         json_data = response.json()
         for item in json_data['results']:
@@ -287,7 +301,7 @@ def Wjunction(user):
         soup = BeautifulSoup(html, 'html.parser')
         element = soup.find(id='XF')
         data_csrf = element['data-csrf']
-        url = 'https://www.wjunction.com/index.php?members/find&_xfRequestUri=%2Fmembers%2F&_xfWithData=1&_xfResponseType=json&_xfToken=' + data_csrf + '&q=' + user
+        url = 'https://www.wjunction.com/index.php?members/find&_xfRequestUri=%2Fmembers%2F&_xfWithData=1&_xfResponseType=json&_xfToken='+data_csrf+'&q='+user
         response = requests.post(url, cookies=cookies)
         json_data = response.json()
         for item in json_data['results']:
@@ -306,7 +320,7 @@ def landzdown(user):
         'fields[]': 'name',
         'submit': 'Search'
     }
-
+    
     try:
         response = requests.post(url, headers=headers, data=payload)
         if response.status_code == 200:
@@ -318,7 +332,6 @@ def landzdown(user):
         print(e)
         notSearch(name)
 
-
 def bhcforums(user):
     url = "https://bhcforums.cc/xmlhttp.php"
     name = 'bhcforums.cc'
@@ -327,9 +340,9 @@ def bhcforums(user):
         'query': user,
     }
     local_headers = headers.copy()
-
+    
     del local_headers["Accept-Encoding"]
-
+    
     query_string = urlencode(query_params)
     full_url = f"{url}?{query_string}"
 
@@ -337,12 +350,11 @@ def bhcforums(user):
     try:
         json_data = response.json()
         found = any('id' in user_info and user_info['id'] == f"{user}" for user_info in json_data)
-
+        
         if found:
-            userStatus(True, name)
+                userStatus(True, name)
     except:
         notSearch(name)
-
 
 def enclavecc(user):
     query_params = {
@@ -370,18 +382,26 @@ def enclavecc(user):
     name = 'enclave.cc'
     query_string = urlencode(query_params)
     userUrl = f"{url}?/search/&{query_string}"
-
+    
     try:
         response = requests.get(userUrl, headers=headers)
         if 'There were no results for your search. Try broadening your criteria or choosing a different content area.' in response.text:
             pass
         elif response.status_code == 200:
             if (f"Go to {user}'s profile") in response.text:
-                userStatus(True, name)
+                soup = BeautifulSoup(response.text, 'html.parser')
+                a_tags = soup.find_all('a', href=True)
+                
+                for a_tag in a_tags:
+                    href_value = a_tag['href']                   
+                    match = re.search(r'/profile/(\d+)-\w+/', href_value)
+                    if match:
+                        userid = match.group(1)
+                        break
+                userStatus(True, name+f"(userID: {userid})")
     except:
         notSearch(name)
     time.sleep(2)
-
 
 def nullbb(user):
     url = "https://nulledbb.com/xmlhttp.php"
@@ -407,8 +427,7 @@ def nullbb(user):
             userStatus(True, name+f"(userID: {user_id})")
     except:
         notSearch(name)
-
-
+        
 def wilderssecurity(user):
     url = "https://www.wilderssecurity.com/search/search"
     name = 'wilderssecurity'
@@ -417,16 +436,15 @@ def wilderssecurity(user):
         "users": user,
         "date": "",
         "_xfToken": ""}
-    try:
+    try :
         response = requests.post(url, headers=headers, data=payload)
         if 'The following members could not be found' not in response.text:
             userStatus(True, name)
-    except:
+    except :
         notSearch(name)
 
-
 if __name__ == "__main__":
-    while (True):
+    while(True):
         user = input(colored.blue("USER NAME: "))
         _0Day(user)
         _0x00sec(user)
@@ -448,6 +466,7 @@ if __name__ == "__main__":
         hostingforums(user)
         landzdown(user)
         wilderssecurity(user)
+        breachForums(user)
 
         print(colored.green("\n>>> DETECTED: "))
         for i in forum:
