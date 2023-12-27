@@ -240,7 +240,8 @@ def dark2web(user):
         for item in json_data['results']:
             id_value = item['id']
             if id_value.lower() == user.lower():
-                userStatus(True, name)
+		userID = item['iconHtml'].split('data-user-id="')[1].split('"')[0]
+                userStatus(True, f"{name}(userID: {userID})")
     except Exception as e:
         notSearch(name)
 
