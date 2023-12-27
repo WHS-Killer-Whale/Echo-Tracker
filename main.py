@@ -4,6 +4,7 @@ import json
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode, urljoin
 import time
+import re
 
 # UI 관련 내용입니다.
 from pyfiglet import Figlet
@@ -136,7 +137,8 @@ def redSecurity(user):
         if response.status_code == 200:
             result = response.json()
             if result and user == result[0].get("id"):
-                userStatus(True, name)
+                userid = result[0].get("uid")
+                userStatus(True, name+f"(userID: {userid})")
 
     except Exception as e:
         notSearch(name)
@@ -385,7 +387,16 @@ def enclavecc(user):
             pass
         elif response.status_code == 200:
             if (f"Go to {user}'s profile") in response.text:
-                userStatus(True, name)
+                soup = BeautifulSoup(response.text, 'html.parser')
+                a_tags = soup.find_all('a', href=True)
+                
+                for a_tag in a_tags:
+                    href_value = a_tag['href']                   
+                    match = re.search(r'/profile/(\d+)-\w+/', href_value)
+                    if match:
+                        userid = match.group(1)
+                        break
+                userStatus(True, name+f"(userID: {userid})")
     except:
         notSearch(name)
     time.sleep(2)
