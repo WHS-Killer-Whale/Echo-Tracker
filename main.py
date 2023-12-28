@@ -240,11 +240,18 @@ def bdfClub(user):
         url = 'https://bdfclub.com/index.php?members/find&_xfRequestUri=%2Fmembers%2F&_xfWithData=1&_xfResponseType=json&_xfToken='+data_csrf+'&q='+user
         response = requests.post(url, cookies=cookies)
         json_data = response.json()
-        for item in json_data['results']:
-            id_value = item['id']
-            userid = item['data-user-id']
-            if id_value.lower() == user.lower():
-                userStatus(True, name + f" (userID: {userid})")
+        
+        for result in json_data['results']:
+            icon_html = result.get('iconHtml', '')
+            user_id_start = icon_html.find('data-user-id="') + len('data-user-id="')
+            user_id_end = icon_html.find('"', user_id_start)
+            user_id = icon_html[user_id_start:user_id_end]
+
+            user_name_start = icon_html.find('title="') + len('title="')
+            user_name_end = icon_html.find('"', user_name_start)
+            user_name = icon_html[user_name_start:user_name_end]
+            userStatus(True, name + f" (userID: {user_id})")
+ 
     except Exception as e:
         notSearch(name)
 
