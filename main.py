@@ -309,10 +309,17 @@ def bdfClub(user):
         )
         response = requests.post(url, cookies=cookies)
         json_data = response.json()
-        for item in json_data["results"]:
-            id_value = item["id"]
-            if id_value.lower() == user.lower():
-                userStatus(True, name)
+        
+        for result in json_data['results']:
+            icon_html = result.get('iconHtml', '')
+            user_id_start = icon_html.find('data-user-id="') + len('data-user-id="')
+            user_id_end = icon_html.find('"', user_id_start)
+            user_id = icon_html[user_id_start:user_id_end]
+
+            user_name_start = icon_html.find('title="') + len('title="')
+            user_name_end = icon_html.find('"', user_name_start)
+            user_name = icon_html[user_name_start:user_name_end]
+            userStatus(True, name + f" (userID: {user_id})")
     except Exception as e:
         notSearch(name)
 
@@ -519,8 +526,12 @@ def wilderssecurity(user):
     payload = {"keywords": "", "users": user, "date": "", "_xfToken": ""}
     try:
         response = requests.post(url, headers=headers, data=payload)
-        if "The following members could not be found" not in response.text:
-            userStatus(True, name)
+        if 'The following members could not be found' not in response.text:
+            match = re.search(r'href="members/(.*?)\.(\d+)/"', response.text)
+            if match:
+                user_name = match.group(1)
+                user_id = match.group(2)
+                userStatus(True, user + f"(userID: {user_id})")
     except:
         notSearch(name)
 
