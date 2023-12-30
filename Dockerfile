@@ -1,6 +1,6 @@
 FROM python:3.10
-WORKDIR /WhatsMyName
-COPY main.py /WhatsMyName
+WORKDIR /Echo-Tracker
+COPY main.py /Echo-Tracker
 
 RUN apt-get update && apt-get install tor -y
 RUN pip3 install requests BeautifulSoup4 pyfiglet clint PySocks urllib3
