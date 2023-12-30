@@ -36,7 +36,7 @@
 Docker Hub에 배포된 컨테이너를 설치할 수도 있습니다.
 > 아래 명령어를 실행합니다.
 ```
-docker run -it hhtboy/whatsmyname_darkweb:1.0
+docker run -it whskillerwhale/echo-tracker:1.0
 ```
 
 ### ⏩ 재실행
