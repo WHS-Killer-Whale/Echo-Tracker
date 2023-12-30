@@ -15,7 +15,7 @@ print(
         "---------------------------------------------------------------------------"
     )
 )
-print(f.renderText("Whats My Name"))
+print(f.renderText("Echo- Tracker"))
 print(
     colored.white(
         "----------------------------------------------------------KILLER WHALE _whs"
@@ -44,6 +44,10 @@ headers = {
 forum = []
 errorForum = []
 
+# 진행 바 관련 내용입니다.
+from tqdm import tqdm
+def progress_bar(desc= "Progress", total=None, ncols=75):
+    return tqdm(desc=desc, total=total, ncols=ncols)
 
 def userStatus(Bool, name):
     if Bool:
@@ -531,7 +535,7 @@ def wilderssecurity(user):
             if match:
                 user_name = match.group(1)
                 user_id = match.group(2)
-                userStatus(True, user + f"(userID: {user_id})")
+                userStatus(True, name + f"(userID: {user_id})")
     except:
         notSearch(name)
 
@@ -539,27 +543,41 @@ def wilderssecurity(user):
 if __name__ == "__main__":
     while True:
         user = input(colored.blue("USER NAME: "))
-        _0Day(user)
-        _0x00sec(user)
-        _1877(user)
-        wasm(user)
-        redSecurity(user)
-        ramble(user)
-        R0CREW(user)
-        hack5(user)
-        rootme(user)
-        megatop(user)
-        dark2web(user)
-        bdfClub(user)
-        infectedZone(user)
-        Wjunction(user)
-        bhcforums(user)
-        enclavecc(user)
-        nullbb(user)
-        hostingforums(user)
-        landzdown(user)
-        wilderssecurity(user)
-        breachForums(user)
+
+        if user == 'S' or user == 's':
+            print(colored.white("==========================================================KILLER WHALE _whs"))
+            exit(1)
+
+        # _0Day(user)
+        # _0x00sec(user)
+        # _1877(user)
+        # wasm(user)
+        # redSecurity(user)
+        # ramble(user)
+        # R0CREW(user)
+        # hack5(user)
+        # rootme(user)
+        # megatop(user)
+        # dark2web(user)
+        # bdfClub(user)
+        # infectedZone(user)
+        # Wjunction(user)
+        # bhcforums(user)
+        # enclavecc(user)
+        # nullbb(user)
+        # hostingforums(user)
+        # landzdown(user)
+        # wilderssecurity(user)
+        # breachForums(user)
+
+        functions = [_0Day, _0x00sec, _1877, wasm, redSecurity, ramble, R0CREW, hack5, rootme, megatop, dark2web, bdfClub, infectedZone, Wjunction, bhcforums, enclavecc, nullbb, hostingforums, landzdown, wilderssecurity, breachForums]
+
+        total_functions = len(functions)
+
+        with progress_bar(total=total_functions) as pbar:
+            for function in functions:
+                function(user)
+                pbar.update(1)
 
         print(colored.green("\n>>> DETECTED: "))
         for i in forum:
@@ -572,7 +590,7 @@ if __name__ == "__main__":
         print("\n")
         print(
             colored.white(
-                "----------------------------------------------------------KILLER WHALE _whs"
+                "----------------------------------------------PRESS 'S' if you want to stop"
             )
         )
 
